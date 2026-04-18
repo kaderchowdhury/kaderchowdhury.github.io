@@ -1,9 +1,9 @@
 {
-  "name": "imran-portfolio-premium",
+  "name": "imran-kader-chowdhury-portfolio",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://kaderchowdhury.github.io/me",
+  "homepage": "https://kaderchowdhury.github.io",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
