@@ -1,0 +1,32 @@
+export const skills = {
+  Languages: ["TypeScript", "JavaScript", "Python", "SQL"],
+  Frontend: ["React.js", "Next.js", "Tailwind CSS", "Webpack"],
+  "Backend & APIs": [
+    "Node.js",
+    "Django",
+    "Nest.js",
+    "Express.js",
+    "GraphQL",
+    "WebSockets",
+  ],
+  "Databases & Search": [
+    "PostgreSQL",
+    "MongoDB",
+    "MySQL",
+    "Redis",
+    "Elasticsearch",
+    "OpenSearch",
+  ],
+  "Messaging & Streaming": ["RabbitMQ", "Kafka", "Apache Pulsar"],
+  "ORMs & Data Access": ["TypeORM", "Prisma", "Sequelize"],
+  "Cloud (AWS)": ["EC2", "S3", "RDS", "ECS/EKS", "CloudWatch", "Lambda"],
+  "DevOps & Tooling": [
+    "Docker",
+    "Kubernetes",
+    "Terraform",
+    "Nginx",
+    "Git",
+    "GitLab CI",
+    "GitHub Actions",
+  ],
+};
