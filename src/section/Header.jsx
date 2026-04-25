@@ -7,7 +7,11 @@ export default function Header({ setMenuOpen, menuOpen }) {
           href="#top"
           className="text-sm font-semibold tracking-wide text-white"
         >
-          IMRAN KADER CHOWDHURY
+          <img
+            src="/name.png"
+            alt="Imran Kader Chowdhury"
+            className="h-4 w-auto"
+          />
         </a>
 
         <nav className="hidden items-center gap-6 text-sm text-neutral-300 md:flex">
