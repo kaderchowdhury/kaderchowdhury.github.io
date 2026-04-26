@@ -12,6 +12,8 @@ import Featured from "./section/Featured";
 import Experience from "./section/Experience";
 import Contact from "./section/Contact";
 import Skill from "./section/Skill";
+import Education from "./section/Education";
+
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
@@ -88,7 +90,7 @@ export default function App() {
 
               <div className="space-y-5">
                 {Object.entries(skills).map(([group, items]) => (
-                  <Skill group={group} items={items} />
+                  <Skill group={group} items={items} key={group} />
                 ))}
               </div>
             </motion.section>
