@@ -470,9 +470,9 @@ export default function PortfolioStylePlaygroundCopy() {
           </h1>
 
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[#5f6368]">
-            A project-first software engineering portfolio built around real
-            products across education, supply chain, business software, and
-            health technology.
+            I turn complex product requirements into maintainable systems, with
+            hands-on experience shipping platforms for learning, commerce,
+            operations, and public health.
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
