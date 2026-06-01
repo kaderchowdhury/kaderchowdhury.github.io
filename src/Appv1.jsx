@@ -1,18 +1,5 @@
 import React, { useMemo, useState } from "react";
 
-// LinkedIn + Google inspired style direction:
-// clean white cards, soft gray page background, blue primary actions,
-// readable spacing, minimal shadows, and restrained accent colors.
-const theme = {
-  page: "bg-[#f3f2ef] text-[#202124] font-sans",
-  card: "rounded-2xl border border-[#dadce0] bg-white shadow-sm",
-  cardHover: "transition hover:-translate-y-0.5 hover:shadow-md",
-  muted: "text-[#5f6368]",
-  blue: "text-[#0a66c2]",
-  blueBg: "bg-[#0a66c2]",
-  paleBlue: "bg-[#e8f0fe]",
-};
-
 const projects = [
   {
     title: "Acourze Education Platform",
@@ -25,8 +12,7 @@ const projects = [
       "Built around course discovery, programme exploration, student onboarding, application flows, and online learning support.",
     stack: ["React", "Node.js", "Express", "MongoDB", "AWS"],
     liveUrl: "https://acourze.com/",
-    accent: "bg-[#4285f4]",
-    accentSoft: "bg-[#e8f0fe]",
+    gradient: "from-violet-500 via-fuchsia-500 to-pink-500",
   },
   {
     title: "Merchant Bay Fashion Supply Chain",
@@ -39,8 +25,7 @@ const projects = [
       "Focused on improving visibility, collaboration, sourcing speed, and operational control across buyers, manufacturers, merchandisers, and supply-chain teams.",
     stack: ["Django", "PostgreSQL", "React", "MongoDB", "AWS"],
     liveUrl: "https://merchantbay.com/",
-    accent: "bg-[#0a66c2]",
-    accentSoft: "bg-[#eef3f8]",
+    gradient: "from-cyan-500 via-blue-500 to-indigo-500",
   },
   {
     title: "Quartzfire Business Platform",
@@ -53,8 +38,7 @@ const projects = [
       "Supported business process visibility by turning disconnected operational information into a more organized, trackable system.",
     stack: ["React", "Node.js", "PostgreSQL", "Docker", "AWS"],
     liveUrl: "https://quartzfire.com/",
-    accent: "bg-[#fbbc05]",
-    accentSoft: "bg-[#fef7e0]",
+    gradient: "from-orange-500 via-amber-500 to-yellow-500",
   },
   {
     title: "OpenSRP Health Platform",
@@ -67,8 +51,7 @@ const projects = [
       "Designed for real-world health systems, including FHIR-native workflows, offline data collection, patient management, and large-scale country implementations.",
     stack: ["React", "FHIR", "Open Source", "APIs", "Offline-first"],
     liveUrl: "https://opensrp.io/",
-    accent: "bg-[#34a853]",
-    accentSoft: "bg-[#e6f4ea]",
+    gradient: "from-emerald-500 via-teal-500 to-cyan-500",
   },
 ];
 
@@ -147,12 +130,12 @@ const categories = [
 
 function Button({ children, href, variant = "primary", className = "" }) {
   const baseClass =
-    "inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[#0a66c2] focus:ring-offset-2";
+    "inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-bold transition focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-2";
 
   const variantClass =
     variant === "outline"
-      ? "border border-[#dadce0] bg-white text-[#0a66c2] hover:bg-[#eef3f8]"
-      : "bg-[#0a66c2] text-white hover:bg-[#004182]";
+      ? "border border-slate-200 bg-white text-slate-950 hover:border-slate-950"
+      : "bg-slate-950 text-white hover:bg-slate-800";
 
   return (
     <a href={href} className={`${baseClass} ${variantClass} ${className}`}>
@@ -237,59 +220,50 @@ function NavLink({ href, children, onClick }) {
     <a
       href={href}
       onClick={onClick}
-      className="text-sm font-medium text-[#5f6368] transition hover:text-[#0a66c2]"
+      className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
     >
       {children}
     </a>
   );
 }
 
-function ProjectVisual({ project }) {
+function ProjectVisual({ gradient, title, stack }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#dadce0] bg-white">
-      <div className="flex items-center justify-between border-b border-[#dadce0] bg-[#f8fafd] px-4 py-3">
-        <div className="flex gap-2">
-          <span className="h-3 w-3 rounded-full bg-[#ea4335]" />
-          <span className="h-3 w-3 rounded-full bg-[#fbbc05]" />
-          <span className="h-3 w-3 rounded-full bg-[#34a853]" />
-        </div>
-        <span className="max-w-[180px] truncate text-xs font-medium text-[#5f6368]">
-          {project.liveUrl.replace("https://", "")}
-        </span>
-      </div>
+    <div
+      className={`relative min-h-[260px] overflow-hidden rounded-[2rem] bg-gradient-to-br ${gradient} p-5 text-white shadow-2xl`}
+    >
+      <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-white/20 blur-2xl" />
+      <div className="absolute -bottom-16 left-8 h-48 w-48 rounded-full bg-black/20 blur-3xl" />
 
-      <div className="relative min-h-[220px] bg-[#f8fafd] p-5">
-        <div className="absolute left-0 top-0 grid h-1 w-full grid-cols-4">
-          <span className="bg-[#4285f4]" />
-          <span className="bg-[#ea4335]" />
-          <span className="bg-[#fbbc05]" />
-          <span className="bg-[#34a853]" />
-        </div>
-
-        <div className="mb-5 flex items-center gap-3">
-          <div
-            className={`grid h-12 w-12 place-items-center rounded-full ${project.accentSoft} text-sm font-semibold text-[#0a66c2]`}
-          >
-            {project.company.slice(0, 2).toUpperCase()}
+      <div className="relative flex h-full min-h-[220px] flex-col justify-between rounded-[1.5rem] border border-white/20 bg-white/10 p-5 backdrop-blur-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex gap-2">
+            <span className="h-3 w-3 rounded-full bg-red-300" />
+            <span className="h-3 w-3 rounded-full bg-yellow-300" />
+            <span className="h-3 w-3 rounded-full bg-green-300" />
           </div>
-          <div>
-            <p className="text-sm font-semibold text-[#202124]">
-              {project.company}
-            </p>
-            <p className="text-xs font-medium text-[#5f6368]">{project.type}</p>
-          </div>
+          <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold">
+            Live Preview
+          </span>
         </div>
 
-        <div className="space-y-3 rounded-2xl border border-[#dadce0] bg-white p-4 shadow-sm">
-          <div className={`h-2 w-24 rounded-full ${project.accent}`} />
-          <h3 className="max-w-sm text-2xl font-semibold tracking-tight text-[#202124]">
-            {project.title}
-          </h3>
-          <div className="grid grid-cols-3 gap-2 pt-2">
-            <div className="col-span-2 h-14 rounded-xl bg-[#f1f3f4]" />
-            <div className="h-14 rounded-xl bg-[#f1f3f4]" />
-            <div className="h-10 rounded-xl bg-[#f1f3f4]" />
-            <div className="col-span-2 h-10 rounded-xl bg-[#f1f3f4]" />
+        <div>
+          <div className="mb-4 grid grid-cols-3 gap-3">
+            <div className="col-span-2 h-20 rounded-2xl bg-white/25" />
+            <div className="h-20 rounded-2xl bg-white/15" />
+            <div className="h-16 rounded-2xl bg-white/15" />
+            <div className="col-span-2 h-16 rounded-2xl bg-white/20" />
+          </div>
+          <h3 className="text-2xl font-black tracking-tight">{title}</h3>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {stack.slice(0, 3).map((item) => (
+              <span
+                key={item}
+                className="rounded-full bg-black/20 px-3 py-1 text-xs font-bold"
+              >
+                {item}
+              </span>
+            ))}
           </div>
         </div>
       </div>
@@ -300,33 +274,35 @@ function ProjectVisual({ project }) {
 function ProjectCard({ project }) {
   return (
     <article className="h-full animate-fade-up">
-      <div
-        className={`${theme.card} ${theme.cardHover} h-full overflow-hidden`}
-      >
-        <div className="grid h-full gap-5 p-5 md:p-6">
-          <ProjectVisual project={project} />
+      <div className="h-full overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white/85 shadow-sm backdrop-blur transition hover:-translate-y-1 hover:shadow-xl">
+        <div className="grid h-full gap-6 p-5 md:p-6">
+          <ProjectVisual
+            gradient={project.gradient}
+            title={project.title}
+            stack={project.stack}
+          />
 
           <div>
             <div className="mb-3 flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-[#e8f0fe] px-3 py-1 text-xs font-semibold text-[#0a66c2]">
+              <span className="rounded-full bg-slate-950 px-3 py-1 text-xs font-bold text-white">
                 {project.category}
               </span>
-              <span className="rounded-full bg-[#f1f3f4] px-3 py-1 text-xs font-medium text-[#5f6368]">
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
                 {project.type}
               </span>
             </div>
 
-            <h3 className="text-2xl font-semibold tracking-tight text-[#202124]">
+            <h3 className="text-2xl font-black tracking-tight text-slate-950">
               {project.title}
             </h3>
-            <p className="mt-1 text-sm font-medium text-[#5f6368]">
+            <p className="mt-1 text-sm font-semibold text-slate-500">
               {project.company}
             </p>
-            <p className="mt-4 leading-7 text-[#5f6368]">
+            <p className="mt-4 leading-7 text-slate-600">
               {project.description}
             </p>
-            <p className="mt-3 rounded-2xl bg-[#f8fafd] p-4 text-sm font-medium leading-6 text-[#3c4043]">
-              <span className="font-semibold text-[#202124]">Impact:</span>{" "}
+            <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm font-medium leading-6 text-slate-700">
+              <span className="font-black text-slate-950">Impact:</span>{" "}
               {project.impact}
             </p>
 
@@ -334,7 +310,7 @@ function ProjectCard({ project }) {
               {project.stack.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-[#dadce0] bg-white px-3 py-1 text-xs font-medium text-[#5f6368]"
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-600"
                 >
                   {item}
                 </span>
@@ -343,7 +319,7 @@ function ProjectCard({ project }) {
 
             <div className="mt-6 flex flex-wrap gap-3">
               <Button href={project.liveUrl}>
-                View Project <Icon name="arrow" className="ml-2 h-4 w-4" />
+                View Case Study <Icon name="arrow" className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -353,15 +329,7 @@ function ProjectCard({ project }) {
   );
 }
 
-function SectionLabel({ children }) {
-  return (
-    <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#0a66c2]">
-      {children}
-    </p>
-  );
-}
-
-export default function PortfolioStylePlaygroundCopy() {
+export default function DeveloperPortfolioTemplate() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -371,7 +339,7 @@ export default function PortfolioStylePlaygroundCopy() {
   }, [activeCategory]);
 
   return (
-    <main className={`min-h-screen overflow-hidden ${theme.page}`}>
+    <main className="min-h-screen overflow-hidden bg-[#f8fafc] text-slate-950">
       <style>{`
         @keyframes fade-up {
           from {
@@ -390,19 +358,18 @@ export default function PortfolioStylePlaygroundCopy() {
       `}</style>
 
       <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#e8f0fe]/80 blur-3xl" />
-        <div className="absolute right-0 top-80 h-[320px] w-[320px] rounded-full bg-[#fef7e0]/80 blur-3xl" />
+        <div className="absolute left-1/2 top-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-cyan-200/40 blur-3xl" />
+        <div className="absolute right-0 top-72 h-[420px] w-[420px] rounded-full bg-violet-200/40 blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-[360px] w-[360px] rounded-full bg-amber-200/40 blur-3xl" />
       </div>
 
-      <header className="sticky top-0 z-50 border-b border-[#dadce0] bg-white/95 backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 lg:px-8">
+      <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
           <a href="#home" className="flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-[#0a66c2] text-sm font-semibold text-white">
+            <span className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-950 text-sm font-black text-white">
               IK
             </span>
-            <span className="font-semibold tracking-tight text-[#202124]">
-              Imran.dev
-            </span>
+            <span className="font-black tracking-tight">Imran.dev</span>
           </a>
 
           <div className="hidden items-center gap-8 md:flex">
@@ -418,7 +385,7 @@ export default function PortfolioStylePlaygroundCopy() {
 
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-full border border-[#dadce0] bg-white md:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 md:hidden"
             onClick={() => setMobileMenuOpen((value) => !value)}
             aria-label="Toggle navigation menu"
           >
@@ -430,7 +397,7 @@ export default function PortfolioStylePlaygroundCopy() {
         </nav>
 
         {mobileMenuOpen && (
-          <div className="border-t border-[#dadce0] bg-white p-5 md:hidden">
+          <div className="border-t border-slate-200 bg-white p-5 md:hidden">
             <div className="grid gap-4">
               <NavLink
                 href="#projects"
@@ -454,22 +421,20 @@ export default function PortfolioStylePlaygroundCopy() {
 
       <section
         id="home"
-        className="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-[1fr_0.88fr] lg:px-8 lg:py-24"
+        className="mx-auto grid max-w-7xl gap-12 px-5 py-20 lg:grid-cols-[1fr_0.9fr] lg:px-8 lg:py-28"
       >
         <div className="flex animate-fade-up flex-col justify-center">
-          <div
-            className={`${theme.card} mb-6 inline-flex w-fit items-center gap-2 px-4 py-2 text-sm font-semibold text-[#5f6368]`}
-          >
-            <span className="h-2 w-2 rounded-full bg-[#0a66c2]" />
+          <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-600 shadow-sm">
+            <span className="text-violet-500">✦</span>
             Senior Full-Stack Software Engineer
           </div>
 
-          <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-tight text-[#202124] md:text-7xl">
-            Building reliable web products across frontend, backend, cloud, and
-            data.
+          <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-tight text-slate-950 md:text-7xl">
+            I build production-grade web products that look sharp and scale
+            cleanly.
           </h1>
 
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-[#5f6368]">
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600">
             A project-first software engineering portfolio built around real
             products across education, supply chain, business software, and
             health technology.
@@ -490,11 +455,14 @@ export default function PortfolioStylePlaygroundCopy() {
               ["4", "Featured Products"],
               ["4", "Business Domains"],
             ].map(([value, label]) => (
-              <div key={label} className={`${theme.card} p-5`}>
-                <div className="text-3xl font-semibold tracking-tight text-[#202124]">
+              <div
+                key={label}
+                className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+              >
+                <div className="text-3xl font-black tracking-tight">
                   {value}
                 </div>
-                <div className="mt-1 text-sm font-medium text-[#5f6368]">
+                <div className="mt-1 text-sm font-semibold text-slate-500">
                   {label}
                 </div>
               </div>
@@ -503,36 +471,36 @@ export default function PortfolioStylePlaygroundCopy() {
         </div>
 
         <div className="relative animate-fade-up">
-          <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-[#e8f0fe] via-white to-[#fef7e0] opacity-90 blur-2xl" />
-          <div className={`${theme.card} relative overflow-hidden p-4`}>
-            <div className="rounded-2xl border border-[#dadce0] bg-white p-5">
-              <div className="flex items-center justify-between border-b border-[#dadce0] pb-4">
+          <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-cyan-200 via-violet-200 to-amber-200 opacity-70 blur-2xl" />
+          <div className="relative rounded-[2.5rem] border border-white bg-white/85 p-4 shadow-2xl backdrop-blur">
+            <div className="rounded-[2rem] bg-slate-950 p-5 text-white">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="flex gap-2">
-                  <span className="h-3 w-3 rounded-full bg-[#ea4335]" />
-                  <span className="h-3 w-3 rounded-full bg-[#fbbc05]" />
-                  <span className="h-3 w-3 rounded-full bg-[#34a853]" />
+                  <span className="h-3 w-3 rounded-full bg-red-400" />
+                  <span className="h-3 w-3 rounded-full bg-yellow-400" />
+                  <span className="h-3 w-3 rounded-full bg-green-400" />
                 </div>
-                <span className="text-xs font-medium text-[#5f6368]">
+                <span className="text-xs font-bold text-slate-400">
                   portfolio.jsx
                 </span>
               </div>
 
-              <div className="space-y-4 py-6 font-mono text-sm leading-7 text-[#3c4043]">
+              <div className="space-y-4 py-6 font-mono text-sm leading-7 text-slate-300">
                 <p>
-                  <span className="text-[#0a66c2]">const</span> developer =
+                  <span className="text-violet-300">const</span> developer =
                   &#123;
                 </p>
                 <p className="pl-5">
-                  <span className="text-[#34a853]">focus</span>: "Product
-                  engineering",
+                  <span className="text-cyan-300">focus</span>: "Project-first
+                  portfolio",
                 </p>
                 <p className="pl-5">
-                  <span className="text-[#34a853]">strengths</span>: ["React",
+                  <span className="text-cyan-300">strengths</span>: ["React",
                   "Backend", "Cloud"],
                 </p>
                 <p className="pl-5">
-                  <span className="text-[#34a853]">proof</span>: "Real shipped
-                  systems",
+                  <span className="text-cyan-300">proof</span>: "Real products,
+                  not buzzwords",
                 </p>
                 <p>&#125;</p>
               </div>
@@ -541,15 +509,11 @@ export default function PortfolioStylePlaygroundCopy() {
                 {projects.slice(0, 4).map((project) => (
                   <div
                     key={project.title}
-                    className="rounded-2xl border border-[#dadce0] bg-[#f8fafd] p-4"
+                    className="rounded-2xl border border-white/10 bg-white/5 p-4"
                   >
-                    <div
-                      className={`mb-3 h-2 w-16 rounded-full ${project.accent}`}
-                    />
-                    <h3 className="font-semibold text-[#202124]">
-                      {project.category}
-                    </h3>
-                    <p className="mt-1 text-xs leading-5 text-[#5f6368]">
+                    <div className="mb-3 h-2 w-16 rounded-full bg-white/20" />
+                    <h3 className="font-black">{project.category}</h3>
+                    <p className="mt-1 text-xs leading-5 text-slate-400">
                       {project.title}
                     </p>
                   </div>
@@ -560,12 +524,14 @@ export default function PortfolioStylePlaygroundCopy() {
         </div>
       </section>
 
-      <section id="projects" className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
+      <section id="projects" className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <SectionLabel>Featured Work</SectionLabel>
-            <h2 className="max-w-3xl text-4xl font-semibold tracking-tight text-[#202124] md:text-5xl">
-              Case studies that prove what I can actually build.
+            <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-violet-600">
+              Featured Work
+            </p>
+            <h2 className="max-w-3xl text-4xl font-black tracking-tight md:text-5xl">
+              Case studies that prove what you can actually build.
             </h2>
           </div>
 
@@ -575,10 +541,10 @@ export default function PortfolioStylePlaygroundCopy() {
                 key={category}
                 type="button"
                 onClick={() => setActiveCategory(category)}
-                className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                className={`rounded-full px-4 py-2 text-sm font-bold transition ${
                   activeCategory === category
-                    ? "bg-[#0a66c2] text-white shadow-sm"
-                    : "border border-[#dadce0] bg-white text-[#5f6368] hover:bg-[#eef3f8] hover:text-[#0a66c2]"
+                    ? "bg-slate-950 text-white shadow-lg shadow-slate-950/10"
+                    : "border border-slate-200 bg-white text-slate-600 hover:text-slate-950"
                 }`}
               >
                 {category}
@@ -594,15 +560,17 @@ export default function PortfolioStylePlaygroundCopy() {
         </div>
       </section>
 
-      <section id="skills" className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
+      <section id="skills" className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
-            <SectionLabel>Technical Stack</SectionLabel>
-            <h2 className="text-4xl font-semibold tracking-tight text-[#202124] md:text-5xl">
+            <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-cyan-600">
+              Technical Stack
+            </p>
+            <h2 className="text-4xl font-black tracking-tight md:text-5xl">
               A senior stack shaped by production systems, cloud delivery, and
               data-driven work.
             </h2>
-            <p className="mt-5 leading-8 text-[#5f6368]">
+            <p className="mt-5 leading-8 text-slate-600">
               My technical work spans the full product lifecycle — building user
               interfaces, designing APIs, modeling databases, deploying cloud
               infrastructure, testing production systems, and turning data into
@@ -614,19 +582,17 @@ export default function PortfolioStylePlaygroundCopy() {
             {skills.map((group) => (
               <div
                 key={group.title}
-                className={`${theme.card} ${theme.cardHover} animate-fade-up p-6`}
+                className="animate-fade-up rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm"
               >
-                <div className="mb-5 grid h-12 w-12 place-items-center rounded-full bg-[#e8f0fe] text-sm font-semibold text-[#0a66c2]">
+                <div className="mb-5 grid h-12 w-12 place-items-center rounded-2xl bg-slate-950 text-sm font-black text-white">
                   {group.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-[#202124]">
-                  {group.title}
-                </h3>
+                <h3 className="text-xl font-black">{group.title}</h3>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {group.items.map((item) => (
                     <span
                       key={item}
-                      className="rounded-full bg-[#f1f3f4] px-3 py-1 text-xs font-medium text-[#5f6368]"
+                      className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"
                     >
                       {item}
                     </span>
@@ -638,18 +604,18 @@ export default function PortfolioStylePlaygroundCopy() {
         </div>
       </section>
 
-      <section id="process" className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
-        <div className={`${theme.card} p-6 md:p-10`}>
+      <section id="process" className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <div className="rounded-[2.5rem] bg-slate-950 p-6 text-white shadow-2xl md:p-10">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#e8f0fe] px-4 py-2 text-sm font-semibold text-[#0a66c2]">
-                <span>●</span>
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white">
+                <span>▣</span>
                 How I Work
               </div>
-              <h2 className="text-4xl font-semibold tracking-tight text-[#202124] md:text-5xl">
+              <h2 className="text-4xl font-black tracking-tight md:text-5xl">
                 From rough idea to production-ready release.
               </h2>
-              <p className="mt-5 leading-8 text-[#5f6368]">
+              <p className="mt-5 leading-8 text-slate-300">
                 I approach software development with a focus on clear
                 architecture, maintainable code, reliable delivery, and
                 practical problem-solving across the full product lifecycle.
@@ -674,12 +640,12 @@ export default function PortfolioStylePlaygroundCopy() {
               ].map(([step, text]) => (
                 <div
                   key={step}
-                  className="flex gap-4 rounded-2xl border border-[#dadce0] bg-[#f8fafd] p-5"
+                  className="flex gap-4 rounded-3xl border border-white/10 bg-white/5 p-5"
                 >
-                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#0a66c2] text-sm font-semibold text-white">
+                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-sm font-black text-slate-950">
                     {step}
                   </div>
-                  <p className="self-center font-medium leading-7 text-[#3c4043]">
+                  <p className="self-center font-semibold leading-7 text-slate-200">
                     {text}
                   </p>
                 </div>
@@ -689,18 +655,20 @@ export default function PortfolioStylePlaygroundCopy() {
         </div>
       </section>
 
-      <section id="contact" className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
-        <div className={`${theme.card} relative overflow-hidden p-8 md:p-12`}>
-          <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-[#e8f0fe]/80 blur-3xl" />
-          <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[#fef7e0]/80 blur-3xl" />
+      <section id="contact" className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <div className="relative overflow-hidden rounded-[2.5rem] border border-slate-200 bg-white p-8 shadow-sm md:p-12">
+          <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-violet-200/60 blur-3xl" />
+          <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-cyan-200/60 blur-3xl" />
 
           <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <SectionLabel>Available for Work</SectionLabel>
-              <h2 className="max-w-3xl text-4xl font-semibold tracking-tight text-[#202124] md:text-5xl">
+              <p className="mb-3 text-sm font-black uppercase tracking-[0.25em] text-violet-600">
+                Available for Work
+              </p>
+              <h2 className="max-w-3xl text-4xl font-black tracking-tight md:text-5xl">
                 Have a product, platform, or engineering problem worth solving?
               </h2>
-              <p className="mt-5 max-w-2xl leading-8 text-[#5f6368]">
+              <p className="mt-5 max-w-2xl leading-8 text-slate-600">
                 Open to senior software engineering roles where product
                 thinking, backend architecture, frontend delivery, and
                 production ownership matter.
@@ -723,19 +691,19 @@ export default function PortfolioStylePlaygroundCopy() {
         </div>
       </section>
 
-      <footer className="border-t border-[#dadce0] bg-white px-5 py-8 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-sm font-medium text-[#5f6368] md:flex-row md:items-center">
+      <footer className="border-t border-slate-200 bg-white/80 px-5 py-8 backdrop-blur lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-sm font-semibold text-slate-500 md:flex-row md:items-center">
           <p>© 2026 Imran Kader Chowdhury. Built with React.</p>
           <div className="flex gap-4">
             <a
               href="https://github.com/kaderchowdhury"
-              className="inline-flex items-center transition hover:text-[#0a66c2]"
+              className="inline-flex items-center transition hover:text-slate-950"
             >
               GitHub <Icon name="external" className="ml-1 h-3 w-3" />
             </a>
             <a
               href="https://linkedin.com/in/kaderchowdhury"
-              className="inline-flex items-center transition hover:text-[#0a66c2]"
+              className="inline-flex items-center transition hover:text-slate-950"
             >
               LinkedIn <Icon name="external" className="ml-1 h-3 w-3" />
             </a>
